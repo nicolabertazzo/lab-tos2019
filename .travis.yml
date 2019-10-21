@@ -19,3 +19,13 @@ after_error:
 after_failure:
   - docker logs asciidoc-to-html
   - docker logs asciidoc-to-pdf
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  repo: nicolabertazzo/lab-tos2019-pages
+  local_dir: output
+  on:
+    branch: master
