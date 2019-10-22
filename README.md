@@ -2,7 +2,7 @@
 
 Sorgenti laboratori [corso Tecnologie Open-Source](https://elearning.unipd.it/math/course/view.php?id=393) a.a 2019/2020.
 
-Per modificare il materiale del corso si consiglia di utilizzare l'editor [ATOM] (https://atom.io/) e il plugin [asciidoc-preview] | https://atom.io/packages/asciidoc-preview.
+Per modificare il materiale del corso si consiglia di utilizzare l'editor [ATOM](https://atom.io/) e il plugin [asciidoc-preview] (https://atom.io/packages/asciidoc-preview).
 
 Per generare il documento in formato html:
 
