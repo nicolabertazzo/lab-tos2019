@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nicolabertazzo/lab-tos2019.svg?branch=master)](https://travis-ci.org/nicolabertazzo/lab-tos2019)
+
 # lab-tos2019
 
 Sorgenti laboratori [corso Tecnologie Open-Source](https://elearning.unipd.it/math/course/view.php?id=393) a.a 2019/2020.
