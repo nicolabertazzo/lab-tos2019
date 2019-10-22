@@ -24,8 +24,9 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep_history: true
+  target_branch: master
   repo: nicolabertazzo/lab-tos2019-pages
   local_dir: output
+  keep_history: true
   on:
     branch: master
