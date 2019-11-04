@@ -1,0 +1,32 @@
+sudo: required
+
+services:
+  - docker                  
+
+before_install:            
+  - mkdir -p output
+  - mkdir -p output/lab3
+  - docker pull asciidoctor/docker-asciidoctor
+
+script:
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -D /documents/output/lab3 lab3/*.ad
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -D /documents/output/lab3 lab3/*.ad
+
+after_error: 
+  - docker logs asciidoc-to-html
+  - docker logs asciidoc-to-pdf
+
+after_failure:
+  - docker logs asciidoc-to-html
+  - docker logs asciidoc-to-pdf
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  target_branch: master
+  repo: nicolabertazzo/lab-tos2019-pages
+  local_dir: output
+  keep_history: true
+  on:
+    branch: master

@@ -5,7 +5,7 @@ Terzo laboratorio Tecnologie open-source
 :description: Terzo laboratorio Tecnologie open-source \
 Università degli Studi di Padova \
 Dipartimento di Matematica \
-Corso di Laurea Magistrale in Informatica, A.A. 2018 – 2019 \
+Corso di Laurea in Informatica, A.A. 2019 – 2020 \
 
 == Verificare l'installazione di Maven
 
@@ -506,13 +506,12 @@ Come ripotato nella link:https://maven.apache.org/plugins/maven-checkstyle-plugi
 
 ----
 <?xml version="1.0"?>
-<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd"> 
 <module name="Checker">
 	<module name="Header">
-		<property name="header" value="Tecnologie open-source" />
-		<property name="fileExtensions" value="md" />
+		<property name="header" value="//Tecnologie Open-Source" />
+		<property name="fileExtensions" value="java" />
 	</module>
-
 </module>
 ----
 
