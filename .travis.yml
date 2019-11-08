@@ -11,14 +11,20 @@ before_install:
 script:
   - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -D /documents/output/lab3 lab3/*.ad
   - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf asciidoctor/docker-asciidoctor asciidoctor-pdf -D /documents/output/lab3 lab3/*.ad
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html2 asciidoctor/docker-asciidoctor asciidoctor -D /documents/output/lab4 lab4/*.ad
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf2 asciidoctor/docker-asciidoctor asciidoctor-pdf -D /documents/output/lab4 lab4/*.ad
 
 after_error: 
   - docker logs asciidoc-to-html
   - docker logs asciidoc-to-pdf
+  - docker logs asciidoc-to-html2
+  - docker logs asciidoc-to-pdf2
 
 after_failure:
   - docker logs asciidoc-to-html
   - docker logs asciidoc-to-pdf
+  - docker logs asciidoc-to-html2
+  - docker logs asciidoc-to-pdf2
 
 deploy:
   provider: pages
