@@ -504,6 +504,85 @@ come nel seguente esempio
 - import_playbook: dbservers.yml
 ----
 
+=== Test vs Produzione
+
+É sempre consigliato utilizzare prima della produzione un ambiente di test, per farlo ci basterà utilizzare diversi file di inventory,
+infatti ci basterà fare una gestione minima dei gruppi per trovare eventuali differenze fra i due ambienti.
+
+=== Specificare sempre lo stato
+
+Nei moduli in cui é presente lo stato é consigliato specificarlo sempre, soprattutto nei casi in cui gli stati possono essere molteplici.
+
+es. ``ansible host1 -m pkg -a "name=gparted state=present"``
+
+=== Gruppi per scopo
+
+Il concetto di creare dei gruppi sulla base dello scopo degli host é un concetto molto potente, quindi é consigliato farlo sempre.
+
+=== Variazioni in base al Sistema Operativo
+
+Nel caso in cui volessimo applicare delle variabili o compiti solo a determinati sistemi operativi é possibile creare *dinamicamente* dei gruppi
+nel seguente modo
+
+----
+- name: talk to all hosts just so we can learn about them
+  hosts: all
+  tasks:
+    - name: Classify hosts depending on their OS distribution
+      group_by:
+        key: os_{{ ansible_facts['distribution'] }}  #variable
+
+# now just on the CentOS hosts...
+
+- hosts: os_CentOS
+  gather_facts: False
+  tasks:
+    - # tasks that only happen on CentOS go here
+----
+
+Quindi secondo la disposizione precendete possiamo assegnare variabili nel seguente modo
+
+----
+---
+# file: group_vars/all
+asdf: 10
+
+---
+# file: group_vars/os_CentOS
+asdf: 42
+----
+
+Se invece ci interessa conoscere il valore di una variabile a seconda del sistema opertaivo
+basta fare nel seguente modo
+
+----
+- hosts: all
+  tasks:
+    - name: Set OS distribution dependent variables
+      include_vars: "os_{{ ansible_facts['distribution'] }}.yml"
+    - debug:
+        var: asdf
+----
+
+=== Keep it simple
+
+Non cercare di applicare tutte queste buone pratiche assieme, se il progetto é piccolo
+conviene utilizzare solo un sottogruppo (ad esempio non utilizzare l'intera disposizione
+come definita prima), cosí come se non si ha confidenza con gli strumenti suggeriti.
+
+=== Sistema di versionamento
+
+Si parla di file di configurazione, quindi é utile tenere traccia dei cambiamenti dei file invetory
+e playbook con dei commit che descrivano il cambiamento e la motivazione di quest'ultimo.
+
+=== Variabili contenenti dati sensibili e non
+
+Come comportamento di default, durante la manutenzione, alcune variabili non vengono mostrate perchè
+contenenti dati sensibili (``vault``), quindi é utile inserire dentro la cartella ``group_vars/`` tutte
+le variabili necessarie (sensibili e non) e lasciare nel file avente prefisso ``vault_`` tutte quelle sensibili.
+Non ci resta che utilizzare jinja2 (non visto in questo laboratorio) per far puntare le variabili sensibili nel file ``var`` alle relative variabili
+sensibili del file ``vault_``.
+
 == Link approfondimento
 
 Lista completa dei moduli: https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
