@@ -1,8 +1,8 @@
 = Ansible
-Sesto laboratorio Tecnologie open-source
+Ottavo laboratorio Tecnologie open-source
 :toc: left
 
-:description: Sesto laboratorio Tecnologie open-source \
+:description: Ottavo laboratorio Tecnologie open-source \
 Università degli Studi di Padova \
 Dipartimento di Matematica \
 Corso di Laurea Magistrale in Informatica, A.A. 2018 – 2019 \
@@ -31,7 +31,7 @@ IMPORTANT: In caso di errore assicurarsi che la versione di virtualbox sia <=6.0
 
 * Connettersi alla macchina virtuale tramite il comando
 ** ``vagrant ssh``
-* inserire la seguente password quando richiesto
+* inserire la seguente password quando e se richiesto
 ** ``vagrant``
 
 == Installazione Ansible
@@ -39,7 +39,7 @@ IMPORTANT: In caso di errore assicurarsi che la versione di virtualbox sia <=6.0
 * Dalla shell della macchina virtuale digitiamo i seguenti due comandi
 ----
 $ sudo apt-get update
-$ sudo apt-get -y install git make vim python-dev python-pip libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev``
+$ sudo apt-get -y install git make vim python-dev python-pip libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev
 ----
 
 * Quindi se tutto é andato bene digitare
