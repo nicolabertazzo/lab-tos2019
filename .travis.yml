@@ -15,7 +15,8 @@ script:
   - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf2 asciidoctor/docker-asciidoctor asciidoctor-pdf -D /documents/output/lab4 lab4/*.ad
   - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html3 asciidoctor/docker-asciidoctor asciidoctor -D /documents/output/lab5 lab5/*.ad
   - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf3 asciidoctor/docker-asciidoctor asciidoctor-pdf -D /documents/output/lab5 lab5/*.ad
-
+- - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html4 asciidoctor/docker-asciidoctor asciidoctor -D /documents/output/lab8 lab8/*.ad
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-pdf4 asciidoctor/docker-asciidoctor asciidoctor-pdf -D /documents/output/lab8 lab8/*.ad
 after_error: 
   - docker logs asciidoc-to-html
   - docker logs asciidoc-to-pdf
@@ -23,6 +24,8 @@ after_error:
   - docker logs asciidoc-to-pdf2
   - docker logs asciidoc-to-html3
   - docker logs asciidoc-to-pdf3
+  - docker logs asciidoc-to-html4
+  - docker logs asciidoc-to-pdf4
 
 after_failure:
   - docker logs asciidoc-to-html
@@ -31,6 +34,8 @@ after_failure:
   - docker logs asciidoc-to-pdf2
   - docker logs asciidoc-to-html3
   - docker logs asciidoc-to-pdf3
+  - docker logs asciidoc-to-html4
+  - docker logs asciidoc-to-pdf4
 
 deploy:
   provider: pages
