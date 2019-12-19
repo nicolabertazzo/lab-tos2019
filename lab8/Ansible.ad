@@ -53,6 +53,10 @@ tramite il seguente comando: ``sudo apt-get install ansible``
 
 == Macchina node
 
+image::static/ansible-setup.png[alt]
+
+
+
 Ora che Ansible é stato installato sulla macchina server, non ci resta che reperire alcune informazioni dalla parte client, che in genere si tratterà
 di un webserver hostato su AWS o da qualche altra parte, quindi per completare la configurazione non faremo altro che creare un'altra macchina virtuale.
 
@@ -586,3 +590,95 @@ sensibili del file ``vault_``.
 == Link approfondimento
 
 Lista completa dei moduli: https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
+
+== Esempio di esecuzione di un playbook
+
+l'obbiettivo dell'esercitazione è quello di installare il programma link:http://tomcat.apache.org/[apache tomcat] in un nodo con sistema operativo link:https://www.centos.org/[Centos 7].
+
+image::static/ansible-centos-tomcat.png[]
+
+=== Creazione nodo centos
+
+Dal sistema host (il nostro pc) creare una cartella (p.es CM-NODE-CENTOS)
+
+----
+mkdir CM-NODE-CENTOS
+----
+
+Inizializziamo una nuova macchina virtuale nella cartella appena creata
+
+----
+cd CM-NODE-CENTOS
+vagrant init centos/7
+----
+
+Modifichiamo il Vagrantfile presente nella cartella "CM-NODE-CENTOS" in modo da specificare che il nodo censtos sarà raggiungibile all'ip 192.168.33.11
+----
+config.vm.network "private_network", ip: "192.168.33.11"
+----
+
+Avviamo la macchina virtuale appena configurata
+----
+vagrant up
+----
+
+Recuperiamo il path della chiave privata che permette a vagrant di connettersi alla macchina virtuale:
+
+----
+vagrant ssh-config
+----
+
+Copiare il contenuto del file indicato dalla proprietà ``IdentityFile``
+
+=== Configurazione Configuration Server
+
+Avviare e accedere al configuration Server (server dov'è installato ansible)
+
+----
+cd [PATH-CM-SERVER]
+vagrant reload
+vagrant up
+vagrant ssh
+----
+
+Aggiungere la chiave privata del nodo centos nel file /home/vagrant/keys/node1.key
+
+Clonare il progetto contenente il playbook di esempio per installare tomcat
+e accedere alla cartella contenente i playbooks per installare tomcat
+----
+git clone https://github.com/nicolabertazzo/ansible-examples.git
+cd ansible-examples/tomcat-standalone
+----
+
+Modificare il file di inventory andando a specificare i riferimenti del nodo centos
+
+----
+vim hosts
+----
+
+Inserendo il contenuto:
+
+----
+[tomcat-servers]
+node1 ansible_ssh_host=192.168.33.11 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/home/vagrant/keys/node1.key
+----
+
+Avviare l'esecuzione del playbook site.yml
+
+----
+ansible-playbook -i hosts site.yml
+----
+
+Ansible eseguirà il playbook site.yml nei nodi specificati nel file di inventory hosts.
+
+* Nel playbook è specificato di eseguire i ruoli:
+
+** selinux
+** tomcat
+
+* Nel gruppo `tomcat-servers`
+
+* Nel file di inventory è stato specificato che il nodo con ip `192.168.33.11` appartiene al gruppo `tomcat-servers`
+* Nella cartella roles sono presenti due cartelle che rappresentano i due ruoli utilizzati
+* Ogni cartella roles ha una cartella tasks dove sono specificati i passi del ruolo (file main.yml)
+* il file tasks/main.yml utilizza file e variabili presenti e specificate nelle cartelle presenti nel role e nel progetto (vedi copy, template e la variabile http_port su tomcat)
